@@ -15,23 +15,26 @@ package
 		private var _url:String;
 		public function OggSound(url:String)
 		{
+			_url = url;
 			init(_url);
 		}
 		private var _sound:Sound;
-		private var _urlLoader:URLStream;
+		private var _urlStream:URLStream;
 		private var _decoder:AudioDecoder;
 		private var _soundChannel:SoundChannel;
 
 		private function init(url:String):void
 		{
 			_sound = new Sound();
-			_urlLoader= new URLStream();
+
 			_decoder = new AudioDecoder();
-			_decoder.load(_urlLoader, OggVorbisDecoder, 8000);
+			_decoder.load(_urlStream, OggVorbisDecoder, 8000);
 			_decoder.addEventListener(Event.INIT, onDecoderReady);
 			_decoder.addEventListener(Event.COMPLETE, onSoundComplete);
 			_decoder.addEventListener(IOErrorEvent.IO_ERROR, onIOError);
-			_urlLoader.load(new URLRequest(url));
+			_urlStream= new URLStream();
+
+			_urlStream.load(new URLRequest(url));
 		}
 
 		public function play(event:Event = null):void {

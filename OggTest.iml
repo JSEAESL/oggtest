@@ -2,25 +2,21 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="OggTest">
     <configurations>
-      <configuration name="OggTest" target-platform="Desktop" pure-as="true" main-class="OggTest" output-file="OggTest.swf" output-folder="$MODULE_DIR$/bin-debug">
-        <dependencies>
+      <configuration name="OggTest" pure-as="true" main-class="OggTest" output-file="OggTest.swf" output-folder="$MODULE_DIR$/bin-debug">
+        <dependencies target-player="20.0">
           <entries>
-            <entry library-id="2248579e-6478-4820-a4f5-e499b8dcaad2">
+            <entry library-id="ff3247c6-ca1a-4654-8bbc-6323ac2c00df">
               <dependency linkage="Merged" />
             </entry>
           </entries>
-          <sdk name="flex_sdk_4.6" />
+          <sdk name="AIRSDK+4.9" />
         </dependencies>
         <compiler-options>
           <map>
             <entry key="compiler.locale" value="en_US" />
           </map>
         </compiler-options>
-        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/OggTest-app.xml" package-file-name="OggTest">
-          <files-to-package>
-            <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/flacc" path-in-package="flacc" />
-          </files-to-package>
-        </packaging-air-desktop>
+        <packaging-air-desktop />
         <packaging-android />
         <packaging-ios />
       </configuration>
@@ -32,11 +28,11 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="flex_sdk_4.6" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="jdk" jdkName="AIRSDK+4.9" jdkType="Flex SDK Type (new)" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library" exported="">
       <library type="flex">
-        <properties id="2248579e-6478-4820-a4f5-e499b8dcaad2" />
+        <properties id="ff3247c6-ca1a-4654-8bbc-6323ac2c00df" />
         <CLASSES>
           <root url="file://$MODULE_DIR$/libs" />
         </CLASSES>
