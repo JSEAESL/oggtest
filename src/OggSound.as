@@ -49,8 +49,8 @@ package
 		}
 		private var loadEd:Boolean = false;
 		private function onSoundComplete(event:Event):void {
-				trace("onSoundComplete");
-				loadEd = true;
+			trace("onSoundComplete");
+			loadEd = true;
 		}
 	}
 }

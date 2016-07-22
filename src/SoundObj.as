@@ -40,7 +40,8 @@ internal class SoundObj extends Sound
 	public static const LOADING_STATE:int = 1;
 	public static const COMPLELE_STATE:int = 2;
 	public static const OGG_DECODE_STATE:int = 3;
-	public var _oggBytes:ByteArray;
+
+	public var oggEncode:OggEncode;
 
 	/**
 	 * 0表示没有加载，1表示正在加载中，2表示加载完成,-1表示加载出错了
@@ -82,12 +83,18 @@ internal class SoundObj extends Sound
 
 		_loadCompeteRecall = loadCompeteRecall;
 		_loadState =LOADING_STATE;
+		if(_soundType == SOUNDTYPE_BG)
+		{
+			this.soundurl = url;
+			this.addEventListener(Event.COMPLETE, this.completeFun);
+			this.addEventListener(IOErrorEvent.IO_ERROR, this.loadError);
+			this.load(new URLRequest(url));
+		}else if(_soundType == SOUNDTYPE_OGG)
+		{
+			this.oggEncode = new OggEncode();
+			this.oggEncode.
+		}
 
-		this.soundurl = url;
-		this.addEventListener(Event.COMPLETE, this.completeFun);
-		this.addEventListener(IOErrorEvent.IO_ERROR, this.loadError);
-
-		this.load(new URLRequest(url));
 	}
 
 	public function playSound(voiceNum:int,url:String=null) : void
@@ -186,10 +193,12 @@ internal class SoundObj extends Sound
 		_loadState = COMPLELE_STATE;
 		/*if(_soundType == SOUNDTYPE_OGG)
 		 {
-		 _loadState = OGG_DECODE_STATE;
+		 	_loadState = OGG_DECODE_STATE;
+			 oggEncode = new OggEncode();
+
 		 }else
 		 {
-		 _loadState = COMPLELE_STATE;
+			 _loadState = COMPLELE_STATE;
 		 }*/
 		_loadCompeteRecall(this);
 		removeLoadEvent();

@@ -29,8 +29,9 @@ public class OggTest extends Sprite
 			//var ogg:OggSound = new OggSound("../ogg/1.ogg");
 			//var ogg:Ogg_Sound = new Ogg_Sound("../ogg/2X.ogg");
 			var ogg:Ogg_Sound = new Ogg_Sound("../ogg/1.ogg");
-
 			//SoundManage.playGameSound("../mp3/soundEffect/1.mp3")
+			SoundManage.playOggSound("../ogg/1.ogg")
+
 		}
 	}
 }
