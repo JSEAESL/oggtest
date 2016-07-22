@@ -15,7 +15,7 @@
           <map>
             <entry key="compiler.locale" value="en_US" />
           </map>
-          <option name="additionalOptions" value="-swf-version=13" />
+          <option name="additionalOptions" value="-use-network=false -swf-version=13" />
         </compiler-options>
         <packaging-air-desktop />
         <packaging-android />

@@ -1,16 +1,16 @@
 package
 {
-	import com.automatastudios.audio.audiodecoder.AudioDecoder;
-	import com.automatastudios.audio.audiodecoder.decoders.OggVorbisDecoder;
+import com.automatastudios.audio.audiodecoder.AudioDecoder;
+import com.automatastudios.audio.audiodecoder.decoders.OggVorbisDecoder;
 
-	import flash.events.Event;
-	import flash.events.IOErrorEvent;
-	import flash.media.Sound;
-	import flash.media.SoundChannel;
-	import flash.net.URLRequest;
-	import flash.net.URLStream;
+import flash.events.Event;
+import flash.events.IOErrorEvent;
+import flash.media.Sound;
+import flash.media.SoundChannel;
+import flash.net.URLRequest;
+import flash.net.URLStream;
 
-	public class OggSound
+public class OggSound
 	{
 		private var _url:String;
 		public function OggSound(url:String)
@@ -26,15 +26,13 @@ package
 		private function init(url:String):void
 		{
 			_sound = new Sound();
-
 			_decoder = new AudioDecoder();
-			_decoder.load(_urlStream, OggVorbisDecoder, 8000);
+			_urlStream= new URLStream();
+			_urlStream.load(new URLRequest(url));
+			_decoder.load(_urlStream, OggVorbisDecoder);
 			_decoder.addEventListener(Event.INIT, onDecoderReady);
 			_decoder.addEventListener(Event.COMPLETE, onSoundComplete);
 			_decoder.addEventListener(IOErrorEvent.IO_ERROR, onIOError);
-			_urlStream= new URLStream();
-
-			_urlStream.load(new URLRequest(url));
 		}
 
 		public function play(event:Event = null):void {
@@ -55,9 +53,9 @@ package
 		}
 		private var loadEd:Boolean = false;
 		private function onSoundComplete(event:Event):void {
-				trace("onSoundComplete");
-				loadEd = true;
-				play();
+			trace("onSoundComplete");
+			loadEd = true;
+			_soundChannel.stop();
 		}
 	}
 }
