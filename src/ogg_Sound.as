@@ -3,6 +3,7 @@
  */
 package {
 import com.jac.ogg.OggManager;
+import com.jac.ogg.events.OggManagerEvent;
 
 import flash.events.Event;
 import flash.events.IOErrorEvent;
@@ -57,8 +58,35 @@ public class Ogg_Sound extends Sound{
         _oggBytes.writeBytes(_urlLoader.data);
         _oggBytes.position = 0;
         initComlete = true;
-        toPlay();
+
+        _oggManager.addEventListener(OggManagerEvent.DECODE_BEGIN, handleDecodeBegin, false, 0, true);
+        _oggManager.addEventListener(OggManagerEvent.DECODE_PROGRESS, handleDecodeProgress, false, 0, true);
+        _oggManager.addEventListener(OggManagerEvent.DECODE_COMPLETE, handleDecodeComplete, false, 0, true);
+        _oggManager.addEventListener(OggManagerEvent.DECODE_CANCEL, handleDecodeCancel, false, 0, true);
+
+        _oggManager.decode(_oggBytes,8192, 33,true);
+        //toPlay();
     }
+
+    private function handleDecodeBegin(e:OggManagerEvent):void
+    {
+        trace("handleDecodeBegin")
+    }
+    private function handleDecodeProgress(e:OggManagerEvent):void
+    {
+        trace("handleDecodeProgress")
+    }
+    private function handleDecodeComplete(e:OggManagerEvent):void
+    {
+        var Ogg:Ogg__Sound = new Ogg__Sound();
+        Ogg.loadBytes(_oggManager.decodedBytes);
+        trace("handleDecodeComplete")
+    }
+    private function handleDecodeCancel(e:OggManagerEvent):void
+    {
+        trace("handleDecodeCancel")
+    }
+
 
     public function toPlay():void
     {
@@ -74,7 +102,6 @@ public class Ogg_Sound extends Sound{
 
     override public function play(startTime:Number = 0,loops:int = 0,sndTransform:SoundTransform = null):SoundChannel
     {
-        _oggManager.initDecoder(_oggBytes);
         return super.play(startTime,loops,sndTransform);
     }
 

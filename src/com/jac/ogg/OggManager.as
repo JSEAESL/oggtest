@@ -189,6 +189,8 @@ package com.jac.ogg
 			_decodeSamplesPerLoop = $samplesPerLoop;
 			
 			//Setup and start timer
+
+			trace("cancelDecode1  start");
 			_decodeTimer = new Timer($delayPerLoopInMS);
 			_decodeTimer.addEventListener(TimerEvent.TIMER, decodeOggVorbisChunk, false, 0, true);
 			_decodeTimer.start();
@@ -203,6 +205,7 @@ package com.jac.ogg
 			_isCanceled = false;
 			
 			//Stop decode timers and clean up
+			trace("cancelDecode1");
 			_decodeTimer.reset();
 			_decodeTimer.removeEventListener(TimerEvent.TIMER, decodeOggVorbisChunk);
 			
@@ -222,7 +225,8 @@ package com.jac.ogg
 		private function decodeOggVorbisChunk(e:Event=null):void
 		{//decodeOggVorbisChunk
 			var returnObj:Object;
-			
+			trace("decodeOggVorbisChunk  "  );
+
 			//check for cancel
 			if (_isCanceled)
 			{//done
@@ -232,6 +236,8 @@ package com.jac.ogg
 			
 			if (_oggDecodeComplete)
 			{//done
+				trace("cancelDecode2");
+
 				_decodeTimer.reset();
 				_decodeTimer.removeEventListener(TimerEvent.TIMER, decodeOggVorbisChunk);
 				return;
@@ -247,7 +253,7 @@ package com.jac.ogg
 				handleDecodeComplete();
 				return;
 			}//done
-			
+
 			if (returnObj && _progressNotifications)
 			{//notify of progress
 				trace("Progress: " + (returnObj.position / _encodedBytes.length));
