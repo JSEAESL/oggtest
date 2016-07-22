@@ -65,7 +65,6 @@ public class Ogg_Sound extends Sound{
     {
         if(initComlete)
         {
-            _oggManager.initDecoder(_oggBytes);
             if(_soundChannel)
             {
                 _soundChannel.stop();
