@@ -18,8 +18,7 @@ import flash.utils.ByteArray;
 public class Ogg_Sound extends Sound{
 
     private const BYTES_PER_SAMPLE:Number = 8;
-    private const NUM_SAMPLES:int = 2048;
-
+    private const NUM_SAMPLES:int = 2048
     private var _oggBytes:ByteArray;
     private var _oggManager:OggManager;
     private var _soundChannel:SoundChannel;
@@ -84,17 +83,19 @@ public class Ogg_Sound extends Sound{
         var result:Object;
         var tmpBuffer:ByteArray = new ByteArray();
         result = _oggManager.getSampleData(NUM_SAMPLES, tmpBuffer);
+
         if (tmpBuffer.length < NUM_SAMPLES * BYTES_PER_SAMPLE)
         {//reset
             trace("Rewind");
-            return;
+            //return;
             //Right now the only way to rewind is reseting the decoder
-            //_oggManager.initDecoder(_oggBytes);
-            //result = _oggManager.getSampleData(NUM_SAMPLES, tmpBuffer);
+            _oggManager.initDecoder(_oggBytes);
+            result = _oggManager.getSampleData(NUM_SAMPLES, tmpBuffer);
         }//reset
 
         tmpBuffer.position = 0;
-
+        trace(tmpBuffer.bytesAvailable)
+        trace(tmpBuffer.length)
         while (tmpBuffer.bytesAvailable)
         {//feed
             //feed data

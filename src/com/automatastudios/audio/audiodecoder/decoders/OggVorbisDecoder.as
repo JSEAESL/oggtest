@@ -25,7 +25,7 @@
 		private var _bufferSize:uint;
 		private var _vorbisFileId:int;
 		
-		private var _position:uint
+		private var _position:uint;
 		private var _bytesTotal:uint;
 		
 		private var _audioInfo:AudioInfo;
