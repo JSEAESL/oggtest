@@ -7,6 +7,7 @@ import cmodule.hookOggVorbisLib.CLibInit;
 import com.automatastudios.audio.audiodecoder.decoders.OggVorbisDecoder;
 
 import com.jac.ogg.OggManager;
+import com.jac.ogg.events.OggManagerEvent;
 
 import flash.errors.IOError;
 
@@ -20,6 +21,7 @@ import flash.net.URLLoader;
 import flash.net.URLLoaderDataFormat;
 import flash.net.URLRequest;
 import flash.utils.ByteArray;
+import flash.utils.getTimer;
 
 public class ogg_Sound {
 
@@ -41,7 +43,10 @@ public class ogg_Sound {
     private var _lib:Object;
     private var _isFullyDecoded:Boolean;
     private var _url:String;
-    public function ogg_Sound(url:String)
+
+    [Embed(source="1.ogg", mimeType="application/octet-stream")]
+    private var ogg:Class;
+    public function ogg_Sound(url:String = null)
     {
         _isPlaying = false;
         _oggBytes = new ByteArray();
@@ -52,11 +57,12 @@ public class ogg_Sound {
         _sound.addEventListener(SampleDataEvent.SAMPLE_DATA, handleSoundData, false, 0, true);
         _loader = new CLibInit;
         _lib = _loader.init();
-        loadUrl(url)
+        //loadUrl(url)
     }
     private var _urlLoader:URLLoader;
     private function loadUrl(url:String):void
     {
+
         _url  = url;
         var urlRequest:URLRequest = new URLRequest(url);
         _urlLoader = new URLLoader(urlRequest);
@@ -73,13 +79,37 @@ public class ogg_Sound {
     private function onComplete(e:Event):void
     {
         //Save bytes
+        ogg = new Class();
+
         _oggBytes.length = 0;
         _oggBytes.writeBytes(_urlLoader.data);
         trace("Load Complete: " + _oggBytes.length);
         _oggBytes.position = 0;
         trace("Init Decoder");
+        _oggManager.addEventListener(OggManagerEvent.DECODE_BEGIN, handleDecodeBegin, false, 0, true);
+        _oggManager.addEventListener(OggManagerEvent.DECODE_PROGRESS, handleDecodeProgress, false, 0, true);
+        _oggManager.addEventListener(OggManagerEvent.DECODE_COMPLETE, handleDecodeComplete, false, 0, true);
+        _oggManager.addEventListener(OggManagerEvent.DECODE_CANCEL, handleDecodeCancel, false, 0, true);
         _oggManager.initDecoder(_oggBytes);
+    }
+
+    private var _startTime:uint;
+    private function handleDecodeBegin(e:OggManagerEvent):void
+    {
+        _startTime = getTimer();
+        trace("Starting Ogg Vorbis Decode...");
+    }
+    private function handleDecodeProgress(e:OggManagerEvent):void
+    {
+        trace("Decode Progress: " + e.data);
+    }
+    private function handleDecodeComplete(e:OggManagerEvent):void
+    {
         _soundChannel = _sound.play();
+    }
+    private function handleDecodeCancel(e:OggManagerEvent):void
+    {
+        trace("Decoding Canceled");
     }
 
     private function handleSoundData(e:SampleDataEvent):void

@@ -3,18 +3,19 @@
   <component name="FlexBuildConfigurationManager" active="OggTest">
     <configurations>
       <configuration name="OggTest" pure-as="true" main-class="OggTest" output-file="OggTest.swf" output-folder="$MODULE_DIR$/bin-debug">
-        <dependencies target-player="20.0">
+        <dependencies target-player="11.1">
           <entries>
             <entry library-id="ff3247c6-ca1a-4654-8bbc-6323ac2c00df">
               <dependency linkage="Merged" />
             </entry>
           </entries>
-          <sdk name="AIRSDK+4.9" />
+          <sdk name="4.6.0+22.0.0" />
         </dependencies>
         <compiler-options>
           <map>
             <entry key="compiler.locale" value="en_US" />
           </map>
+          <option name="additionalOptions" value="-swf-version=13" />
         </compiler-options>
         <packaging-air-desktop />
         <packaging-android />
@@ -28,7 +29,7 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="AIRSDK+4.9" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="jdk" jdkName="4.6.0+22.0.0" jdkType="Flex SDK Type (new)" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library" exported="">
       <library type="flex">
