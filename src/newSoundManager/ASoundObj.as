@@ -16,6 +16,9 @@ public class ASoundObj extends Sound implements ISound {
     public static const BEGIN_STATE:int = 0;
     public static const LOADING_STATE:int = 1;
     public static const COMPLELE_STATE:int = 2;
+
+    public static var isOGGDecode:Boolean = false;
+
     public var _soundurl:String = "";
     //0表示背景音乐，1表示音效
     public var uid:int ;

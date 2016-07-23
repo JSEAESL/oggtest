@@ -1,5 +1,7 @@
 package
 {
+import com.greensock.TweenLite;
+
 import flash.display.Sprite;
 import flash.events.MouseEvent;
 
@@ -9,7 +11,6 @@ public class OggTest extends Sprite
 	{
 		public function OggTest()
 		{
-
 			var t:Sprite = Draw.creatRect(10,10,10,10,0x666666,1);
 			t.x = 300;
 			t.y = 300;
@@ -24,23 +25,43 @@ public class OggTest extends Sprite
 			switch(count)
 			{
 				case 1:
-					SoundManage.playGameSound("../ogg/1.ogg");
-					SoundManage.playGameSound("../mp3/soundEffect/1.mp3");
-					SoundManage.playGameSound("../mp3/soundEffect/2.mp3");
+						trace("step1");
+					SoundManage.playGameSound("../ogg/2.ogg");
+					//SoundManage.playGameSound("../ogg/3.ogg");
+					//SoundManage.playGameSound("../ogg/4.ogg");
+
+					/*SoundManage.playGameSound("../mp3/soundEffect/1.mp3");
+						TweenLite.delayedCall(0.1,function():void
+						{
+							SoundManage.playGameSound("../mp3/soundEffect/1.mp3");
+						});*/
+					//SoundManage.playGameSound("../ogg/2.ogg");
+					//SoundManage.playGameSound("../ogg/3.ogg");
+
+					//SoundManage.playGameSound("../mp3/soundEffect/1.mp3");
+					//SoundManage.playGameSound("../mp3/soundEffect/2.mp3");
 					break;
 				case 2:
-					SoundManage.playGameSound("../ogg/2.ogg");
-					SoundManage.playGameSound("../mp3/soundEffect/3.mp3");
-					SoundManage.playGameSound("../mp3/soundEffect/4.mp3");
+					trace("step2");
+					SoundManage.stopGameSound("../ogg/2.ogg");
+
+					//SoundManage.stopGameSound("../ogg/2.ogg");
+					//SoundManage.stopGameSound("../ogg/3.ogg");
+					//SoundManage.playGameSound("../mp3/soundEffect/3.mp3");
+					//SoundManage.playGameSound("../mp3/soundEffect/4.mp3");
 					break;
 				case 3:
-					SoundManage.playGameSound("../ogg/3.ogg");
-					SoundManage.playGameSound("../mp3/soundEffect/5.mp3");
-					SoundManage.playGameSound("../mp3/soundEffect/6.mp3");
+					SoundManage.playGameSound("../ogg/2.ogg");
+
+					//SoundManage.playGameSound("../ogg/6.ogg");
+					//SoundManage.playGameSound("../ogg/4.ogg");
+					//SoundManage.playGameSound("../ogg/5.ogg");
+					//SoundManage.playGameSound("../mp3/soundEffect/5.mp3");
+					//SoundManage.playGameSound("../mp3/soundEffect/6.mp3");
 					break;
 				case 4:
-					SoundManage.playGameSound("../ogg/4.ogg");
-					SoundManage.playGameSound("../mp3/soundEffect/4.mp3");
+					SoundManage.stopGameSound("../ogg/2.ogg");
+					//SoundManage.playGameSound("../mp3/soundEffect/4.mp3");
 					count = 0;
 					break;
 			}

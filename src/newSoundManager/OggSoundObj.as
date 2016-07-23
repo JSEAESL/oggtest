@@ -2,8 +2,6 @@
  * Created by Administrator on 2016/7/23.
  */
 package newSoundManager {
-import newSoundManager.ASoundObj;
-
 import flash.events.Event;
 import flash.events.IOErrorEvent;
 import flash.events.TimerEvent;
@@ -16,11 +14,17 @@ import flash.utils.Timer;
 public class OggSoundObj extends ASoundObj implements ISound {
 
     private var oggEncode:OggEncode;
-    private var oggSound:OggSound;
+    public static var stepFun:StepFun;
     public function OggSoundObj(soundType:int, hasSoundFadeEffect:Boolean = true, isLoop:Boolean = true)
     {
         super(soundType,hasSoundFadeEffect,isLoop);
         oggEncode = new OggEncode();
+        stepFun = new StepFun();
+    }
+
+    public function get oggSound():OggSound
+    {
+        return oggEncode.ogg;
     }
 
     override public function loadSound(url:String,loadCompeteRecall:Function):void
@@ -48,14 +52,25 @@ public class OggSoundObj extends ASoundObj implements ISound {
         _urlLoader.addEventListener(IOErrorEvent.IO_ERROR,onError);
     }
     private var _urlLoader:URLLoader;
-    private function onComplete(e:Event):void
+    private function onComplete(e:Event = null):void
     {
-        oggEncode.addEventListener(Event.COMPLETE,onAllComplete);
-        oggEncode.toDecode(_urlLoader.data)
+        if(!isOGGDecode)
+        {
+            trace("ogg   onComplete");
+            isOGGDecode = true;
+            oggEncode.addEventListener(Event.COMPLETE,onAllComplete);
+            oggEncode.toDecode(_urlLoader.data)
+        }else
+        {
+            trace("ogg   pushStepFun");
+            stepFun.pushStepFun(onComplete)
+        }
     }
     private function onAllComplete(e:Event):void
     {
-        oggSound = oggEncode.ogg;
+        trace("ogg   onAllComplete");
+        isOGGDecode = false;
+        stepFun.callFun();
         _loadState = COMPLELE_STATE;
         _loadCompeteRecall(this);
         removeLoadEvent();
@@ -87,12 +102,13 @@ public class OggSoundObj extends ASoundObj implements ISound {
         }
         this.voiceNum = voiceNum;
         this.state = "play";
-        this.soundchannel = oggSound.play(0, 1, getSTF(currFadeVoiceValue,_soundType));
+        //this.soundchannel = oggSound.startPlay();
+        this.soundchannel = oggSound.startPlay(0, 1, getSTF(currFadeVoiceValue,_soundType));
         if (this.soundchannel == null)
         {
             return;
         }
-        this.soundchannel.addEventListener(Event.SOUND_COMPLETE, this.playSoundComplete);
+      /*  this.soundchannel.addEventListener(Event.SOUND_COMPLETE, this.playSoundComplete);
         if(mHasSoundFadeEffect&&_soundType==SOUNDTYPE_BG)
         {
             this.currFadeVoiceValue = 0;
@@ -107,36 +123,13 @@ public class OggSoundObj extends ASoundObj implements ISound {
         {
             currFadeVoiceValue = voiceNum;
             this.soundchannel.soundTransform = getSTF(this.currFadeVoiceValue,_soundType);
-        }
+        }*/
     }
 
-    private function soundIn(e:TimerEvent):void
-    {
-        if (this.state == "play" && this.currFadeVoiceValue != this.voiceNum)
-        {
-            this.currFadeVoiceValue = nextVoice();
-            this.soundchannel.soundTransform =getSTF(this.currFadeVoiceValue,_soundType);
-        }
-        else
-        {
-            timer.removeEventListener(TimerEvent.TIMER, this.soundIn);
-            timer = null;
-        }
-    }
 
-    private function nextVoice():int
+    private function playSoundComplete(event:Event) : void
     {
-        var sbs:int = Math.abs(voiceNum-currFadeVoiceValue);
-        if(sbs<5)
-        {
-            return voiceNum;
-        }
-        return currFadeVoiceValue+5*(voiceNum-currFadeVoiceValue)/sbs;
-    }
-
-    private function playSoundComplete(e:Event):void
-    {
-        var _loc_2:* = e.currentTarget as SoundChannel;
+        var _loc_2:* = event.currentTarget as SoundChannel;
         _loc_2.removeEventListener(Event.SOUND_COMPLETE, this.playSoundComplete);
         if(!mIsLoop) return;
         if (_loc_2 == this.soundchannel && this.state == "play")
@@ -150,6 +143,45 @@ public class OggSoundObj extends ASoundObj implements ISound {
         }
     }
 
+    private function nextVoice():int
+    {
+        var sbs:int = Math.abs(voiceNum-currFadeVoiceValue);
+        if(sbs<5)
+        {
+            return voiceNum;
+        }
+        return currFadeVoiceValue+5*(voiceNum-currFadeVoiceValue)/sbs;
+    }
+
+    private function soundOut(event:Event) : void
+    {
+        if(this.state == "stop" && this.currFadeVoiceValue > 0)
+        {
+            this.currFadeVoiceValue = this.currFadeVoiceValue - 10;
+            this.soundchannel.soundTransform = getSTF(this.currFadeVoiceValue,_soundType);
+            if (this.currFadeVoiceValue <= 0)
+            {
+                timer.removeEventListener(TimerEvent.TIMER, this.soundOut);
+
+                this.soundchannel.stop();
+            }
+        }
+    }
+
+    private function soundIn(event:Event) : void
+    {
+        if (this.state == "play" && this.currFadeVoiceValue != this.voiceNum)
+        {
+            this.currFadeVoiceValue = nextVoice();
+            this.soundchannel.soundTransform =getSTF(this.currFadeVoiceValue,_soundType);
+        }
+        else
+        {
+            timer.removeEventListener(TimerEvent.TIMER, this.soundIn);
+            timer = null;
+        }
+    }
+
     override public function stopSound() : void
     {
         if(_loadState==LOADING_STATE)
@@ -160,14 +192,8 @@ public class OggSoundObj extends ASoundObj implements ISound {
         removeLoadEvent();
         if(this.soundchannel)
         {
-            //this.soundchannel.removeEventListener(Event.SOUND_COMPLETE, this.playSoundComplete);
-            //this.soundchannel.stop();
-        }
-        if(timer)
-        {
-            timer.stop();
-            timer.removeEventListener(TimerEvent.TIMER, this.soundIn);
-            timer = null;
+            this.soundchannel.stop();
+            oggSound.stopPlay();
         }
     }
     override public function upSoundVoice(num:int):void

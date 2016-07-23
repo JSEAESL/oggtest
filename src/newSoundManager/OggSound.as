@@ -7,6 +7,7 @@ import flash.events.Event;
 import flash.events.SampleDataEvent;
 import flash.media.Sound;
 import flash.media.SoundChannel;
+import flash.media.SoundTransform;
 import flash.utils.ByteArray;
 
 public class OggSound extends Sound
@@ -25,45 +26,61 @@ public class OggSound extends Sound
         private function init():void
         {
             _OggBytes = new ByteArray();
-            addEventListener(SampleDataEvent.SAMPLE_DATA, handleSampleData, false, 0, true);
         }
 
-        public function togglePlay():void
+        public function togglePlay():SoundChannel
         {//togglePlay
             if (_isPlaying)
             {//stop
-                stopPlay();
+                return stopPlay();
             }//stop
             else
             {//play
-                startPlay();
+                return startPlay();
             }//play
+
+            return null
         }//togglePlay
 
-        public function startPlay():void
-        {//startPlay
-            _isPlaying = true;
-            _soundChannel = this.play();
-            dispatchEvent(new Event(Event.CHANGE));
-        }//startPlay
+        private var _startTime:Number;
+        private var _loops:int;
+        private var _sndTransform:SoundTransform;
 
-        public function stopPlay():void
-        {//stopPlay
+        public function startPlay(startTime:Number = 0,loops:int = 0,sndTransform:SoundTransform = null):SoundChannel
+        {
+            _isPlaying = true;
+            stopPlay();
+            _startTime = startTime;
+            _loops = loops;
+            _sndTransform = sndTransform;
+            removeEventListener(SampleDataEvent.SAMPLE_DATA, handleSampleData, false);
+            addEventListener(SampleDataEvent.SAMPLE_DATA, handleSampleData, false, 0, true);
+            _soundChannel = this.play();
+            return _soundChannel;
+        }
+
+        public function stopPlay():SoundChannel
+        {
             _isPlaying = false;
-            _soundChannel.stop();
-            dispatchEvent(new Event(Event.CHANGE));
-        }//stopPlay
+            removeEventListener(SampleDataEvent.SAMPLE_DATA, handleSampleData, false);
+
+            if(_soundChannel)
+            {
+                _soundChannel.stop();
+            }
+            _OggBytes.position = 0;
+            return _soundChannel
+        }
 
         public function loadBytes($bytes:ByteArray):void
-        {//loadBytes
+        {
             _newBytes = true;
             _OggBytes.length = 0;
             _OggBytes.writeBytes($bytes);
             trace("Loaded New Bytes");
             dispatchEvent(new Event(Event.CHANGE));
-            togglePlay();
             _newBytes = false;
-        }//loadBytes
+        }
 
         private function handleSampleData(e:SampleDataEvent):void
         {

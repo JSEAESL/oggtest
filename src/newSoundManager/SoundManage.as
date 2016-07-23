@@ -138,6 +138,42 @@ public class SoundManage extends Object
 		}
 		_lastBgSoundUrl = null;
 	}
+	public static function stopGameSound(obj:*) : ISound
+	{
+		var sound:ISound;
+		if (obj is String)
+		{
+			sound = getGameSound(obj);
+			//没加载的先进行加载
+			if(sound.loadState == ASoundObj.BEGIN_STATE)
+			{
+				loadGameSound(String(obj),playGameSound);
+				return null;
+			}
+			else if(sound.loadState ==ASoundObj.COMPLELE_STATE)
+			{
+				sound.stopSound();
+			}
+		}
+		else if(obj is ISound)
+		{
+			sound = obj as ISound;
+			//没加载的先进行加载
+			if(sound.loadState == ASoundObj.BEGIN_STATE)
+			{
+				loadGameSound(sound.soundurl,playGameSound);
+				return null;
+			}else if(sound.loadState ==ASoundObj.COMPLELE_STATE)
+			{
+				sound.stopSound()
+			}
+		}
+		else if (obj is Class)
+		{
+			sound = new obj;
+		}
+		return sound;
+	}
 
 	public static function playGameSound(obj:*,boo1:Boolean = false,boo2:Boolean = false) : ISound
 	{
