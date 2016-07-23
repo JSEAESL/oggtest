@@ -1,6 +1,6 @@
 package newSoundManager {
-import com.ASoundObj;
-import com.SoundFactory;
+import newSoundManager.ASoundObj;
+import newSoundManager.SoundFactory;
 
 import flash.utils.Dictionary;
 

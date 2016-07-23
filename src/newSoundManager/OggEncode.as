@@ -6,7 +6,6 @@ import com.jac.ogg.OggManager;
 import com.jac.ogg.events.OggManagerEvent;
 
 import flash.events.Event;
-
 import flash.events.EventDispatcher;
 import flash.utils.ByteArray;
 

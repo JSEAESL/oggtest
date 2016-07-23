@@ -2,7 +2,7 @@
  * Created by Administrator on 2016/7/23.
  */
 package newSoundManager {
-import com.ASoundObj;
+import newSoundManager.ASoundObj;
 
 import flash.events.Event;
 import flash.events.IOErrorEvent;

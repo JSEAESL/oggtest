@@ -1,15 +1,11 @@
 /**
  * Created by Administrator on 2016/7/23.
  */
-package com {
+package newSoundManager {
 import flash.media.Sound;
 import flash.media.SoundChannel;
-import flash.media.SoundLoaderContext;
 import flash.media.SoundTransform;
-import flash.net.URLRequest;
 import flash.utils.Timer;
-
-import newSoundManager.ISound;
 
 public class ASoundObj extends Sound implements ISound {
     public static const SOUNDTYPE_BG:int =0;

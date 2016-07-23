@@ -1,11 +1,7 @@
 /**
  * Created by Administrator on 2016/7/23.
  */
-package com {
-import newSoundManager.ISound;
-import newSoundManager.OggSoundObj;
-import newSoundManager.SoundObj;
-
+package newSoundManager {
 public class SoundFactory {
     public function SoundFactory() {
     }

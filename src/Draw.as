@@ -1,8 +1,8 @@
 package {
-	import flash.display.Shape;
-	import flash.display.Sprite;
+import flash.display.Shape;
+import flash.display.Sprite;
 
-	public class Draw extends Sprite
+public class Draw extends Sprite
 	{
 		public function Draw()
 		{

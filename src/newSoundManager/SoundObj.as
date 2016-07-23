@@ -1,6 +1,6 @@
 package newSoundManager {
 
-import com.ASoundObj;
+import newSoundManager.ASoundObj;
 
 import flash.events.Event;
 import flash.events.IOErrorEvent;

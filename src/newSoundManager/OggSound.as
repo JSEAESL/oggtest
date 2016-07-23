@@ -3,13 +3,13 @@
  */
 package newSoundManager {
 
-    import flash.events.Event;
-    import flash.events.SampleDataEvent;
-    import flash.media.Sound;
-    import flash.media.SoundChannel;
-    import flash.utils.ByteArray;
+import flash.events.Event;
+import flash.events.SampleDataEvent;
+import flash.media.Sound;
+import flash.media.SoundChannel;
+import flash.utils.ByteArray;
 
-    public class OggSound extends Sound
+public class OggSound extends Sound
     {
         private var _OggBytes:ByteArray;
         private const NUM_SAMPLES:int = 2048;
