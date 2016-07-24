@@ -38,10 +38,10 @@ public class OggTest extends Sprite
 						SoundManage.playGameSound("../ogg/2.ogg");
 					});*/
 
-					SoundManage.playGameSound("../mp3/soundEffect/6.mp3");
+					SoundManage.playGameSound("../mp3/soundEffect/2.mp3");
 					 TweenLite.delayedCall(0.5,function():void
 					 {
-					 SoundManage.playGameSound("../mp3/soundEffect/6.mp3");
+					 SoundManage.playGameSound("../mp3/soundEffect/2.mp3");
 					 });
 
 					/*SoundManage.playGameSound("../mp3/soundEffect/2.mp3");
@@ -60,10 +60,10 @@ public class OggTest extends Sprite
 					//SoundManage.stopGameSound("../ogg/2.ogg");
 
 
-					SoundManage.playGameSound("../mp3/soundEffect/6.mp3");
+					SoundManage.playGameSound("../mp3/soundEffect/2.mp3");
 					TweenLite.delayedCall(0.5,function():void
 					{
-						SoundManage.playGameSound("../mp3/soundEffect/6.mp3");
+						SoundManage.playGameSound("../mp3/soundEffect/2.mp3");
 					});
 
 
@@ -81,10 +81,10 @@ public class OggTest extends Sprite
 					break;
 				case 3:
 
-					SoundManage.playGameSound("../mp3/soundEffect/6.mp3");
+					SoundManage.playGameSound("../mp3/soundEffect/2.mp3");
 					TweenLite.delayedCall(0.5,function():void
 					{
-						SoundManage.playGameSound("../mp3/soundEffect/6.mp3");
+						SoundManage.playGameSound("../mp3/soundEffect/2.mp3");
 					});
 
 
@@ -97,10 +97,10 @@ public class OggTest extends Sprite
 					//SoundManage.playGameSound("../mp3/soundEffect/6.mp3");
 					break;
 				case 4:
-					SoundManage.playGameSound("../mp3/soundEffect/6.mp3");
+					SoundManage.playGameSound("../mp3/soundEffect/2.mp3");
 					TweenLite.delayedCall(0.5,function():void
 					{
-						SoundManage.playGameSound("../mp3/soundEffect/6.mp3");
+						SoundManage.playGameSound("../mp3/soundEffect/2.mp3");
 					});
 
 
