@@ -1,5 +1,7 @@
 package newSoundManager {
 
+import flash.media.SoundLoaderContext;
+
 import newSoundManager.ASoundObj;
 
 import flash.events.Event;
@@ -39,7 +41,7 @@ public class SoundObj extends ASoundObj implements ISound
 		this.soundurl = url;
 		this.addEventListener(Event.COMPLETE, this.completeFun);
 		this.addEventListener(IOErrorEvent.IO_ERROR, this.loadError);
-		this.load(new URLRequest(url));
+		this.load(new URLRequest(url),new SoundLoaderContext(1000, false));
 	}
 
 	override public function playSound(voiceNum:int,url:String=null) : void
