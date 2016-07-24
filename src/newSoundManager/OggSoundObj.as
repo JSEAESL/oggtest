@@ -102,13 +102,12 @@ public class OggSoundObj extends ASoundObj implements ISound {
         }
         this.voiceNum = voiceNum;
         this.state = "play";
-        //this.soundchannel = oggSound.startPlay();
         this.soundchannel = oggSound.startPlay(0, 1, getSTF(currFadeVoiceValue,_soundType));
         if (this.soundchannel == null)
         {
             return;
         }
-      /*  this.soundchannel.addEventListener(Event.SOUND_COMPLETE, this.playSoundComplete);
+        this.soundchannel.addEventListener(Event.SOUND_COMPLETE, this.playSoundComplete);
         if(mHasSoundFadeEffect&&_soundType==SOUNDTYPE_BG)
         {
             this.currFadeVoiceValue = 0;
@@ -123,7 +122,7 @@ public class OggSoundObj extends ASoundObj implements ISound {
         {
             currFadeVoiceValue = voiceNum;
             this.soundchannel.soundTransform = getSTF(this.currFadeVoiceValue,_soundType);
-        }*/
+        }
     }
 
 

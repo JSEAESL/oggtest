@@ -56,6 +56,7 @@ public class OggSound extends Sound
             removeEventListener(SampleDataEvent.SAMPLE_DATA, handleSampleData, false);
             addEventListener(SampleDataEvent.SAMPLE_DATA, handleSampleData, false, 0, true);
             _soundChannel = this.play();
+            _soundChannel.soundTransform = _sndTransform;
             return _soundChannel;
         }
 
@@ -77,7 +78,9 @@ public class OggSound extends Sound
             _newBytes = true;
             _OggBytes.length = 0;
             _OggBytes.writeBytes($bytes);
+            _OggBytes.position = 0;
             trace("Loaded New Bytes");
+            //this.loadCompressedDataFromByteArray(_OggBytes,_OggBytes.length/2);
             dispatchEvent(new Event(Event.CHANGE));
             _newBytes = false;
         }
@@ -88,7 +91,15 @@ public class OggSound extends Sound
             {//feed sound
                 if (_OggBytes.bytesAvailable < 8)
                 {//loop
-                    _OggBytes.position = 0;
+                    _loops--;
+                    if(_loops>0)
+                    {
+                        _OggBytes.position = 0;
+                    }else
+                    {
+                        removeEventListener(SampleDataEvent.SAMPLE_DATA, handleSampleData, false);
+                        return;
+                    }
                 }//loop
                 //feed data
                 e.data.writeFloat(_OggBytes.readFloat());		//Left Channel
