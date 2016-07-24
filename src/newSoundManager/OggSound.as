@@ -14,6 +14,9 @@ public class OggSound extends Sound
     {
         private var _OggBytes:ByteArray;
         private const NUM_SAMPLES:int = 2048;
+        private const SAMPLE_RATE:uint = 44100;
+        private const LENGTH:uint = 1;
+        private const SAMPLE_LENGTH:uint = SAMPLE_RATE*(LENGTH*2);
         private var _isPlaying:Boolean = false;
         private var _newBytes:Boolean = false;
         private var _soundChannel:SoundChannel;
@@ -54,9 +57,9 @@ public class OggSound extends Sound
             _loops = loops;
             _sndTransform = sndTransform;
             removeEventListener(SampleDataEvent.SAMPLE_DATA, handleSampleData, false);
-            addEventListener(SampleDataEvent.SAMPLE_DATA, handleSampleData, false, 0, true);
-            _soundChannel = this.play();
-            _soundChannel.soundTransform = _sndTransform;
+            //addEventListener(SampleDataEvent.SAMPLE_DATA, handleSampleData, false, 0, true);
+            _soundChannel = this.play(startTime,loops,sndTransform);
+            //_soundChannel.soundTransform = _sndTransform;
             return _soundChannel;
         }
 
@@ -80,8 +83,7 @@ public class OggSound extends Sound
             _OggBytes.writeBytes($bytes);
             _OggBytes.position = 0;
             trace("Loaded New Bytes");
-            //this.loadCompressedDataFromByteArray(_OggBytes,_OggBytes.length/2);
-            dispatchEvent(new Event(Event.CHANGE));
+            this.loadPCMFromByteArray(_OggBytes,SAMPLE_LENGTH);
             _newBytes = false;
         }
 
