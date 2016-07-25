@@ -33,7 +33,7 @@ package com.jac.ogg
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
 	import flash.utils.Timer;
-	
+
 	/**
 	 * ...
 	 * @author Jake Callery
@@ -85,19 +85,16 @@ package com.jac.ogg
 		private var _audioInfo:AudioInfo;
 		private var _decoderBytesRead:int;
 		private var _progressNotifications:Boolean;
-		
-		
-		
+
 		/**
 		 * This is the interface to our Alchemy based Ogg Encoder.
 		 */
 		public function OggManager() 
 		{//OggManager
-		
 			//Setup the alchemy library
 			_loader = new CLibInit;
 			_lib = _loader.init();
-			
+
 			//Set up WAVWriter for Ogg Vorbis Encoding
 			_wavWriter = new WAVWriter();
 			_wavBytes = new ByteArray;

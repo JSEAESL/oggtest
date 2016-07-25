@@ -18,7 +18,6 @@ public class OggSoundObj extends ASoundObj implements ISound {
     public function OggSoundObj(soundType:int, hasSoundFadeEffect:Boolean = true, isLoop:Boolean = true)
     {
         super(soundType,hasSoundFadeEffect,isLoop);
-        oggEncode = new OggEncode();
         stepFun = new StepFun();
     }
 
@@ -58,6 +57,7 @@ public class OggSoundObj extends ASoundObj implements ISound {
         {
             trace("ogg   onComplete");
             isOGGDecode = true;
+            oggEncode = new OggEncode();
             oggEncode.addEventListener(Event.COMPLETE,onAllComplete);
             oggEncode.toDecode(_urlLoader.data)
         }else

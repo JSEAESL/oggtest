@@ -3,7 +3,6 @@
  */
 package newSoundManager {
 
-import flash.events.Event;
 import flash.events.SampleDataEvent;
 import flash.media.Sound;
 import flash.media.SoundChannel;
@@ -16,7 +15,7 @@ public class OggSound extends Sound
         private const NUM_SAMPLES:int = 2048;
         private const SAMPLE_RATE:uint = 44100;
         private const LENGTH:uint = 1;
-       private const SAMPLE_LENGTH:uint = SAMPLE_RATE*(LENGTH*2);
+        private const SAMPLE_LENGTH:uint = SAMPLE_RATE*(LENGTH*2);
         private var _isPlaying:Boolean = false;
         private var _newBytes:Boolean = false;
         private var _soundChannel:SoundChannel;

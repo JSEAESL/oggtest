@@ -1,7 +1,4 @@
 package newSoundManager {
-import newSoundManager.ASoundObj;
-import newSoundManager.SoundFactory;
-
 import flash.utils.Dictionary;
 
 public class SoundManage extends Object
@@ -122,9 +119,7 @@ public class SoundManage extends Object
 		{
 			stopBgSound();
 			_lastBgSoundUrl = str;
-			var suffix:String = JStrUnti.getUrlSuffixStr(str);
-			var soundObject:ISound = SoundFactory.creatSoundObjectBySuffix(suffix,false, false);
-			//var soundObject:ISound = SoundFactory.creatSoundObject(ASoundObj.SOUNDTYPE_BG);
+			var soundObject:ISound = SoundFactory.creatSoundObject(ASoundObj.SOUNDTYPE_BG);
 			soundObject.playSound(voice,str);
 			_bgSound = soundObject;
 		}
@@ -191,7 +186,17 @@ public class SoundManage extends Object
 			//没加载的先进行加载
 			if(sound.loadState == ASoundObj.BEGIN_STATE)
 			{
-				loadGameSound(String(obj),playGameSound);
+				if(!checkISogg(obj))
+				{
+					loadGameSound(String(obj),playGameSound);
+					return null;
+				}
+				obj  = OggSoundProMap3Buff(obj);
+				playGameSound(String(obj));
+				obj  = OggSoundProMap3Buff(obj,"ogg");
+				loadGameSound(String(obj),null);
+				//org
+				//loadGameSound(String(obj),playGameSound);
 				return null;
 			}
 			else if(sound.loadState ==ASoundObj.COMPLELE_STATE)
@@ -205,7 +210,18 @@ public class SoundManage extends Object
 			//没加载的先进行加载
 			if(sound.loadState == ASoundObj.BEGIN_STATE)
 			{
-				loadGameSound(sound.soundurl,playGameSound);
+				var buffUrl:String = sound.soundurl;
+				if(!checkISogg(sound.soundurl))
+				{
+					loadGameSound(buffUrl,playGameSound);
+				}
+				buffUrl  = OggSoundProMap3Buff(buffUrl);
+				loadGameSound(String(buffUrl),playGameSound);
+				buffUrl  = OggSoundProMap3Buff(buffUrl,"ogg");
+				loadGameSound(String(buffUrl),null);
+
+				//org
+				//loadGameSound(String(obj),playGameSound);
 				return null;
 			}else if(sound.loadState ==ASoundObj.COMPLELE_STATE)
 			{
@@ -217,6 +233,22 @@ public class SoundManage extends Object
 			sound = new obj;
 		}
 		return sound;
+	}
+
+	private static function checkISogg(obj:*):Boolean
+	{
+		var suffix:String = JStrUnti.getUrlSuffixStr(obj);
+		return suffix.toLowerCase() == "ogg"?true:false
+	}
+
+	private static function OggSoundProMap3Buff(obj:*,suff:String = "mp3"):*
+	{
+		if (obj is String)
+		{
+			var suffix:String = JStrUnti.replaceSuffixStr(obj,suff);
+			return suffix;
+		}
+		return obj;
 	}
 
 	private static function loadGameSound(obj:*,loadComplete:Function=null):void
@@ -233,7 +265,10 @@ public class SoundManage extends Object
 		function loadEnd(sd:ISound):void
 		{
 			_gameSoundDic[sd.soundurl] = sd;
-			loadComplete(sd);
+			if(loadComplete)
+			{
+				loadComplete(sd);
+			}
 		}
 		sound.loadSound(sound.soundurl,loadEnd);
 	}

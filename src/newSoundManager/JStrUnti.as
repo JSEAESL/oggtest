@@ -46,9 +46,11 @@ public class JStrUnti
 		}
 
 		//替换后缀
-		public static function replaceSuffixStr(str:String,newSuf:String):String
+		public static function replaceSuffixStr(str:String,newSur:String):String
 		{
-			var dim:String =  str.replace(JStrUnti.getUrlSuffixStr(str),newSuf);
+			var end:int = str.lastIndexOf(".");
+			var dim1:String = str.slice(0,++end);
+			var dim:String =  dim1 + newSur;
 			return dim;
 		}
 
