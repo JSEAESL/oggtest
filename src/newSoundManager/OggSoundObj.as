@@ -90,7 +90,7 @@ public class OggSoundObj extends ASoundObj implements ISound {
         {
             if(_loadState ==BEGIN_STATE&&url&&url!="")
             {
-                loadSound(url,function(sound:SoundObj):void
+                loadSound(url,function(sound:ISound):void
                 {
                     if(sound.loadState == COMPLELE_STATE)
                     {

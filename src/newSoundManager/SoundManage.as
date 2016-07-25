@@ -122,7 +122,9 @@ public class SoundManage extends Object
 		{
 			stopBgSound();
 			_lastBgSoundUrl = str;
-			var soundObject:ISound = SoundFactory.creatSoundObject(ASoundObj.SOUNDTYPE_BG);
+			var suffix:String = JStrUnti.getUrlSuffixStr(str);
+			var soundObject:ISound = SoundFactory.creatSoundObjectBySuffix(suffix,false, false);
+			//var soundObject:ISound = SoundFactory.creatSoundObject(ASoundObj.SOUNDTYPE_BG);
 			soundObject.playSound(voice,str);
 			_bgSound = soundObject;
 		}
